@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Virtual Tour</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+	<link href="https://vjs.zencdn.net/7.1.0/video-js.css" rel="stylesheet" type="text/css">
+	<style>
+		#panorama {width: 600px;height: 400px;float: left;}
+		#panorama2 {width: 600px;height: 400px;float: right;}
+	</style>
+</head>
+<body>
+	<div id="panorama"></div>
+
+	<video id="panorama2" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="none" style="width:600px;height:400px;" poster="/images/video/jfk-poster.jpg" crossorigin="anonymous">
+		<source src="https://pannellum.org/images/video/jfk.webm" type="video/webm" />
+		<source src="https://pannellum.org/images/video/jfk.mp4" type="video/mp4" />
+		<p class="vjs-no-js">
+			To view this video please enable JavaScript, and consider upgrading to
+			a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+		</p>
+	</video>
+	
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+	<script src="https://vjs.zencdn.net/7.1.0/video.js"></script>
+	<script src="https://pannellum.org/js/videojs-pannellum-plugin.js"></script>
+	<script>
+		videojs('panorama2', {
+			plugins: {
+				pannellum: {}
+			}
+		});
+		viewer = pannellum.viewer('panorama', {
+			"autoLoad": true, 
+			"default": {
+				"firstScene": "circle",
+				"author": "Matthew Petroff",
+				"sceneFadeDuration": 1000
+			},
+
+			"scenes": {
+				"circle": {
+					"title": "Mason Circle",
+					"hfov": 110,
+					"pitch": 1.98,
+					"yaw": -21,
+					"type": "equirectangular",
+					"panorama": "carpentry_shop_02.jpg",
+					"hotSpots": [
+						{
+							"pitch": 1.98,
+							"yaw": -21,
+							"type": "scene",
+							"text": "Spring House or Dairy",
+							"sceneId": "house"
+						}
+					]
+				},
+
+				"house": {
+					"title": "Spring House or Dairy",
+					"hfov": 110,
+					"yaw": -50,
+					"type": "equirectangular",
+					"panorama": "storeroom.jpg",
+					"hotSpots": [
+						{
+							"pitch": 0,
+							"yaw": -50,
+							"type": "scene",
+							"text": "Mason Circle",
+							"sceneId": "circle",
+							"targetYaw": -21,
+							"targetPitch": 1.98
+						}
+					]
+				}
+			}
+		});
+
+		function mouseupListener(event) {
+			console.log("Mouse Up");
+			console.log("Hfov " + viewer.getHfov());
+			console.log("Yaw " + viewer.getYaw());
+			console.log("Pitch " + viewer.getPitch());
+			var hfov = viewer.getHfov();
+			var yaw = viewer.getYaw();
+			var pitch = viewer.getPitch();
+			var posPitch = viewer.mouseEventToCoords(event)[0];
+			var posYaw   = viewer.mouseEventToCoords(event)[1];
+			var posX = event.offsetX;
+			var posY = event.offsetY;
+		};
+
+		function mousedownListener(event) {
+			console.log("Mouse Down");
+		};
+		function sceneChangeListener(sceneId) {
+			console.log("Scene changed to: " + sceneId);
+		};
+		function imageLoadListener() {
+			console.log("Load Done");
+		};
+		function errorListener(errorMsg) {
+			console.log("Error message: " + errorMsg);
+			viewer.off('error',errorListener);
+		};
+		function errorClearedListener() {
+			console.log("Error Cleared");
+		};
+		viewer.on('mouseup', mouseupListener);
+		viewer.on('mousedown', mousedownListener);
+		viewer.on('scenechange', sceneChangeListener);
+		viewer.on('error', errorListener);
+		viewer.on('errorcleared', errorClearedListener);
+		viewer.on('load', imageLoadListener);
+	</script>
+</body>
+</html>
