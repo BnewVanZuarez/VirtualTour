@@ -6,12 +6,19 @@
 	<title>Virtual Tour</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
 	<link href="https://vjs.zencdn.net/7.1.0/video-js.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css" />
+	<link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet" />
+	<link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="https://s3.deovr.com/version/1/css/styles.css"/>
 	<style>
 		#panorama {width: 600px;height: 400px;float: left;}
 		#panorama2 {width: 600px;height: 400px;float: right;}
 	</style>
 </head>
 <body>
+
+	<iframe style="width: 600px;height: 400px;float: right;" width="600" height="400" src="https://www.youtube.com/embed/m9EClKA1VeQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 	<div id="panorama"></div>
 
 	<video id="panorama2" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="none" style="width:600px;height:400px;" poster="/images/video/jfk-poster.jpg" crossorigin="anonymous">
@@ -22,11 +29,18 @@
 			a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
 		</p>
 	</video>
+
 	
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
 	<script src="https://vjs.zencdn.net/7.1.0/video.js"></script>
 	<script src="https://pannellum.org/js/videojs-pannellum-plugin.js"></script>
+	<script src="https://cdn.plyr.io/3.6.2/plyr.polyfilled.js"></script>
+	<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+	<script src="https://s3.deovr.com/version/1/js/bundle.js" async></script>
 	<script>
+		const player = new Plyr('#player', {
+			title: 'Example Title',
+		});
 		videojs('panorama2', {
 			plugins: {
 				pannellum: {}
